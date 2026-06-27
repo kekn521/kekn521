@@ -1,4 +1,4 @@
-# Hey, I'm [Your Name] 👋
+# Hey, I'm Kai-Yuan Lin 👋
 
 I'm a CS student passionate about **Explainable AI** and **Graphics Engineering** — I like understanding *why* models do what they do, and making things look great while I'm at it.
 
@@ -6,11 +6,10 @@ I'm a CS student passionate about **Explainable AI** and **Graphics Engineering*
 
 ## 🧠 About Me
 
-- 🎓 Studying Computer Science @ [Your University]
+- 🎓 Studying Computer Science @ National Tsing Hua University
 - 🔍 Interested in the intersection of **interpretable ML** and **real-time rendering**
-- 📚 Currently reading / exploring: [book, paper, or topic you're into]
-- 💬 Ask me about: XAI methods, shaders, or anything graphics-related
-- 🌏 Based in [Your City / Country]
+- 📚 Currently reading / exploring: AI literature slops
+- 🌏 Based in Hsinchu, Taiwan
 
 ---
 
@@ -19,11 +18,9 @@ I'm a CS student passionate about **Explainable AI** and **Graphics Engineering*
 ### 🔬 XAI Visualization Tool
 > Making black-box models a little less black-boxy.
 
-A web-based tool for visualizing model explanations (SHAP, LIME, attention maps) in an interactive interface. Built to help researchers and practitioners actually *understand* what their models are paying attention to.
+A web-based tool for visualizing model explanations in an interactive interface. Built to help researchers and practitioners actually *understand* what their models are paying attention to.
 
-- 🛠 Stack: `[e.g. Python · Flask · React · D3.js]`
 - 📌 Status: In progress
-- 🔗 [View Repo](https://github.com/yourusername/your-repo)
 
 ---
 
@@ -38,7 +35,6 @@ A web-based tool for visualizing model explanations (SHAP, LIME, attention maps)
 ### ML / XAI
 ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
-![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
 
 ### Graphics & Visualization
 ![OpenGL](https://img.shields.io/badge/OpenGL-5586A4?style=for-the-badge&logo=opengl&logoColor=white)
@@ -61,5 +57,5 @@ A web-based tool for visualizing model explanations (SHAP, LIME, attention maps)
 ---
 
 <p align="center">
-  <i>Always curious, occasionally sleep-deprived ☕</i>
+  <i>Always sleep-deprived</i>
 </p>

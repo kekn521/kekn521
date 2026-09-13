@@ -8,7 +8,7 @@ I'm a CS student passionate about **Explainable AI** and **Graphics Engineering*
 
 - 🎓 Studying Computer Science @ National Tsing Hua University
 - 🔍 Interested in the intersection of **interpretable ML** and **real-time rendering**
-- 📚 Currently reading / exploring: AI literature slops
+- 📚 Currently reading / exploring: VLA-related topics
 - 🌏 Based in Hsinchu, Taiwan
 
 ---

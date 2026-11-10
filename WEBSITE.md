@@ -1,32 +1,33 @@
-# Ken Lin's portfolio
+# Ken Lin's research atlas
 
-A buildless, responsive academic portfolio for `https://kekn521.github.io/kekn521/`.
+Static personal research website at https://kekn521.github.io/kekn521/.
 
-## Preview
+## Navigation
 
-Open `index.html` directly in a browser, or run `python3 -m http.server 4173 --bind 127.0.0.1` from this directory, then open `http://127.0.0.1:4173`. No dependency installation or build is required. `portfolio-preview.html` is a portable single-file copy with local CSS, JavaScript, and images embedded; regenerate it after changing source files. The deploy workflow excludes this preview.
+The full-screen atlas is the homepage and directory. Its five destinations open full-page views: Research, About, Research direction, Off duty, and Say hello. The Atlas link and Escape return to the overview. Browser back/forward and direct hash links work. The Directory dialog provides a keyboard-friendly alternative to spatial navigation.
 
-## Edit
+Drag empty map space to pan. Plus/minus controls zoom; Reset view restores the overview. With the map focused, arrow keys pan, +/- zoom, and 0 resets. Zoom and pan are bounded. Browser pinch zoom is retained. All content remains visible as a normal document when JavaScript is disabled.
 
-- `index.html`: biography, publication, academic affiliation, email and section content.
-- `styles.css`: pastel-blue visual system and responsive layout.
-- `app.js`: research-atlas selections and personal illustrations.
-- `assets/`: favicon and research figure.
+The default is the user's pastel-blue light palette. A manual dark theme persists locally. Reduced motion makes navigation transitions immediate. Typography is self-hosted; no remote fonts or analytics are required.
 
-The contact address is the academic email published in the Vis4GS paper. Update both email links and the displayed address together if needed. First-year standing is time-sensitive and should be updated as studies progress. The project identifies first authorship; add a personal contribution statement when available.
+## Files and local preview
 
-The atlas and personal selectors support native keyboard operation, visible focus, and live announcements. All main content and links remain available without JavaScript. Reduced-motion settings disable smooth scrolling.
+- `index.html`: factual content and accessible route links.
+- `styles.css`: atlas composition, full-page views, responsive variants, and themes.
+- `app.js`: hash routing, history, focus, directory dialog, camera controls, and theme.
+- `assets/`: optimized research figures, illustrative coffee still life, fonts and licenses.
+- `tests/browser.cjs`: browser checks and screenshots.
 
-## Publish to GitHub Pages
+Open `index.html` directly, or run `python3 -m http.server 4173 --bind 127.0.0.1`. The website itself needs no install or build. For automated tests, run `npm install`, `npx playwright install chromium`, and `npm test`.
 
-1. Use the public repository `kekn521/kekn521`. Keep its existing profile `README.md`; store these website instructions as `WEBSITE.md`.
-2. Upload the site files and `.github/workflows/pages.yml` on branch `main`.
-3. In the repository's **Settings → Pages**, select **GitHub Actions** as the publishing source.
-4. Run the **Publish portfolio to GitHub Pages** workflow, or push a new commit to `main`.
-5. Wait for the deployment to finish, then verify `https://kekn521.github.io/kekn521/`.
+## Deployment and review
 
-The workflow stages only `index.html`, `styles.css`, `app.js`, `.nojekyll`, and `assets/`. Internal documentation is not included in the published site. Fonts are requested from Google Fonts with local font fallbacks. There is no analytics or server-side form.
+GitHub Pages uses GitHub Actions. The workflow runs browser checks first. Only successful runs on `main` deploy. The `design/full-screen-atlas` branch runs tests and saves screenshots without deploying. Screenshots are attached as `portfolio-browser-review` for seven days.
 
-## Sources
+The deployment stages only `index.html`, `styles.css`, `app.js`, `.nojekyll`, and `assets/`. Keep the repository's existing profile `README.md` intact; these instructions are published in the repository as `WEBSITE.md`.
 
-Biographical details and hobbies were supplied by Ken. Publication title, authors, academic email, and figure are from [Vis4GS](https://arxiv.org/html/2606.26985v2). The figure was copied from `Figures/Fig1_Teaser.png` in Ken's local `Vis4GS_preprint.zip`. Acceptance is also listed in the [IEEE VIS 2026 program](https://www.virtual.ieeevis.org/year/2026/program/papers/). Research-in-progress is described broadly without private experimental details.
+## Content maintenance
+
+Academic standing is time-sensitive. The email is Ken's public academic contact from the Vis4GS paper. The paper entry identifies first authorship without inventing individual contributions. Current research interests make no claim of completed VLA findings. Coffee imagery is illustrative, not a personal photograph. See `assets/ASSETS.md` for the generation prompt, asset sources, and licenses.
+
+Public research source: https://arxiv.org/html/2606.26985v2.

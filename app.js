@@ -1,53 +1,240 @@
 'use strict';
 
-const atlasContent = {
-  research: { title: 'A closer look at 3D reconstruction', description: 'Vis4GS connects visible artifacts with the Gaussian primitives and training history behind them.', link: '#research', label: 'Visit the project' },
-  questions: { title: 'From seeing patterns to understanding behavior', description: 'I’m curious about visual analytics for understanding AI models, including vision-language-action systems.', link: '#questions', label: 'Explore this direction' },
-  about: { title: 'Learning and researching at NTHU', description: 'I’m a first-year ISA master’s student in VM Lab, advised by Dr. Shih-Hsuan Hung (Kevin).', link: '#about', label: 'A little about me' },
-  life: { title: 'Coffee, games, and time to recharge', description: 'Away from research, I enjoy making pour-over coffee, playing games, and working out.', link: '#off-duty', label: 'Meet the off-duty Ken' }
-};
+(() => {
+  const root = document.documentElement;
+  const atlas = document.getElementById('home');
+  const viewport = document.getElementById('map-viewport');
+  const scene = document.getElementById('map-scene');
+  const pages = [...document.querySelectorAll('[data-page]')];
+  const dialog = document.getElementById('directory-dialog');
+  const directoryToggle = document.getElementById('directory-toggle');
+  const themeToggle = document.getElementById('theme-toggle');
+  const zoomIn = document.getElementById('zoom-in');
+  const zoomOut = document.getElementById('zoom-out');
+  const labels = {home:'Atlas',research:'Research',about:'About',questions:'Research direction','off-duty':'Off duty',contact:'Say hello'};
+  let currentRoute = null;
+  let returnFocus = null;
+  let directoryFocus = null;
+  let zoom = 1;
+  let panX = 0;
+  let panY = 0;
+  let drag = null;
+  let resizeFrame = 0;
 
-document.querySelectorAll('[data-atlas]').forEach(button => {
-  button.addEventListener('click', () => {
-    const item = atlasContent[button.dataset.atlas];
-    document.querySelectorAll('[data-atlas]').forEach(other => {
-      const selected = other === button;
-      other.classList.toggle('is-active', selected);
-      other.setAttribute('aria-pressed', String(selected));
+  function routeFromHash() {
+    let value;
+    try { value = decodeURIComponent(location.hash.slice(1)); } catch { return 'home'; }
+    return Object.hasOwn(labels, value) ? value : 'home';
+  }
+
+  function closeDirectory(restoreFocus = true) {
+    if (!dialog.open) return;
+    dialog.close();
+    if (restoreFocus) (directoryFocus || directoryToggle).focus({preventScroll:true});
+  }
+
+  function openDirectory() {
+    if (dialog.open) return;
+    directoryFocus = document.activeElement;
+    dialog.showModal();
+    document.getElementById('directory-close').focus();
+  }
+
+  function renderRoute(route, source = null, initial = false) {
+    if (route === currentRoute && !initial) return;
+    const previous = currentRoute;
+    currentRoute = route;
+    closeDirectory(false);
+    if (source?.classList.contains('destination')) {
+      returnFocus = source;
+      const rect = source.getBoundingClientRect();
+      const bounds = atlas.getBoundingClientRect();
+      if (bounds.width && bounds.height) {
+        atlas.style.setProperty('--origin-x', `${((rect.left + rect.width / 2 - bounds.left) / bounds.width) * 100}%`);
+        atlas.style.setProperty('--origin-y', `${((rect.top + rect.height / 2 - bounds.top) / bounds.height) * 100}%`);
+      }
+    }
+    pages.forEach(page => {
+      const active = page.id === route;
+      page.hidden = !active;
+      page.inert = !active;
+      if (active) page.scrollTop = 0;
     });
-    document.getElementById('atlas-title').textContent = item.title;
-    document.getElementById('atlas-description').textContent = item.description;
-    const link = document.getElementById('atlas-link');
-    link.href = item.link;
-    link.replaceChildren(document.createTextNode(item.label + ' '));
-    const arrow = document.createElement('span');
-    arrow.setAttribute('aria-hidden', 'true');
-    arrow.textContent = '↗';
-    link.append(arrow);
-  });
-});
-
-const coffeeArt = document.getElementById('scene-art').innerHTML;
-const interests = {
-  coffee: { title: 'One cup, a slower moment.', description: 'A little time away from the screen, making a pour-over.', note: 'a small daily pleasure', art: coffeeArt },
-  games: { title: 'A different kind of exploration.', description: 'Off duty, I enjoy spending time playing games.', note: 'room for a little play', art: '<svg viewBox="0 0 360 250"><ellipse class="scene-shadow" cx="180" cy="210" rx="112" ry="13"/><path d="M106 78q-23 1-36 50l-13 49q-7 40 24 27l44-35h110l44 35q31 13 24-27l-13-49q-13-49-36-50Z" fill="#f4f9fd" stroke="#799bb6" stroke-width="3"/><path d="M163 78v-17q0-20 20-20t20-22" class="steam"/><path d="M105 105v43m-21-22h43" stroke="#547c9c" stroke-width="13" stroke-linecap="round"/><circle cx="250" cy="111" r="9" fill="#8faecc"/><circle cx="270" cy="132" r="9" fill="#b2c7db"/><circle cx="230" cy="132" r="9" fill="#b2c7db"/><circle cx="250" cy="153" r="9" fill="#8faecc"/><circle cx="151" cy="153" r="15" fill="#d4e3ef" stroke="#92adc4" stroke-width="2"/><circle cx="205" cy="153" r="15" fill="#d4e3ef" stroke="#92adc4" stroke-width="2"/><path d="M168 116h8m10 0h8" stroke="#80583f" stroke-width="4" stroke-linecap="round"/></svg>' },
-  workout: { title: 'Time to move.', description: 'Working out is another part of my life outside the lab.', note: 'a change of pace', art: '<svg viewBox="0 0 360 250"><ellipse class="scene-shadow" cx="180" cy="209" rx="112" ry="13"/><g transform="rotate(-16 180 135)"><rect x="85" y="119" width="190" height="24" rx="9" fill="#a0bacf" stroke="#6f91ac" stroke-width="3"/><rect x="78" y="80" width="35" height="105" rx="10" fill="#c6dcec" stroke="#7698b3" stroke-width="3"/><rect x="54" y="96" width="25" height="74" rx="8" fill="#e2edf6" stroke="#7698b3" stroke-width="3"/><rect x="247" y="80" width="35" height="105" rx="10" fill="#c6dcec" stroke="#7698b3" stroke-width="3"/><rect x="282" y="96" width="25" height="74" rx="8" fill="#e2edf6" stroke="#7698b3" stroke-width="3"/><path d="M151 123v16m12-16v16m12-16v16m12-16v16m12-16v16m12-16v16" stroke="#6f91ac" stroke-width="2"/></g><path d="m141 57-6-17m25 11 3-17m-44 30-15-10" stroke="#9fb8cc" stroke-width="3" stroke-linecap="round"/></svg>' }
-};
-
-document.querySelectorAll('[data-interest]').forEach(button => {
-  button.addEventListener('click', () => {
-    const item = interests[button.dataset.interest];
-    document.querySelectorAll('[data-interest]').forEach(other => {
-      const selected = other === button;
-      other.classList.toggle('is-active', selected);
-      other.setAttribute('aria-pressed', String(selected));
+    const isHome = route === 'home';
+    atlas.classList.toggle('is-away', !isHome);
+    atlas.inert = !isHome;
+    atlas.setAttribute('aria-hidden', String(!isHome));
+    document.body.dataset.route = route;
+    document.getElementById('route-crumb').textContent = isHome ? '' : labels[route];
+    document.title = isHome ? 'Ken Lin | Research atlas' : `${labels[route]} | Ken Lin`;
+    document.querySelectorAll('[data-route]').forEach(link => {
+      if (link.dataset.route === route) link.setAttribute('aria-current','page');
+      else link.removeAttribute('aria-current');
     });
-    // All SVG markup is authored locally above; no visitor input is rendered.
-    document.getElementById('scene-art').innerHTML = item.art;
-    document.getElementById('interest-title').textContent = item.title;
-    document.getElementById('interest-description').textContent = item.description;
-    document.getElementById('interest-note').textContent = item.note;
-  });
-});
+    if (isHome) {
+      if (!initial || previous) (returnFocus || viewport).focus({preventScroll:true});
+      scheduleConnections();
+    } else {
+      document.getElementById(route).querySelector('h2').focus({preventScroll:true});
+    }
+    document.getElementById('navigation-status').textContent = isHome ? 'Atlas overview' : `${labels[route]} opened. Use Atlas to return to the map.`;
+  }
 
-document.getElementById('year').textContent = new Date().getFullYear();
+  function navigate(route, source = null) {
+    if (!Object.hasOwn(labels, route)) return;
+    const unchanged = route === currentRoute;
+    closeDirectory(unchanged);
+    if (unchanged) return;
+    history.pushState({route},'',`#${route}`);
+    renderRoute(route, source);
+  }
+
+  function updateCamera() {
+    // Bounded travel always leaves part of the map visible; Reset restores all destinations.
+    const limitX = viewport.clientWidth * (.2 + (zoom - 1) / 2);
+    const limitY = viewport.clientHeight * (.2 + (zoom - 1) / 2);
+    panX = Math.max(-limitX, Math.min(limitX, panX));
+    panY = Math.max(-limitY, Math.min(limitY, panY));
+    scene.style.setProperty('--pan-x', `${panX}px`);
+    scene.style.setProperty('--pan-y', `${panY}px`);
+    scene.style.setProperty('--zoom', String(zoom));
+    document.getElementById('zoom-level').value = `${Math.round(zoom * 100)}%`;
+    zoomOut.disabled = zoom <= .8;
+    zoomIn.disabled = zoom >= 1.6;
+  }
+
+  function changeZoom(amount) {
+    zoom = Math.max(.8,Math.min(1.6,Math.round((zoom + amount) * 10) / 10));
+    updateCamera();
+  }
+
+  function resetCamera() { zoom = 1; panX = 0; panY = 0; updateCamera(); }
+
+  function drawConnections() {
+    if (currentRoute !== 'home') return;
+    const bounds = scene.getBoundingClientRect();
+    if (!bounds.width || !bounds.height) return;
+    const width = scene.clientWidth;
+    const height = scene.clientHeight;
+    const svg = scene.querySelector('.connections');
+    svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    const ratioX = width / bounds.width;
+    const ratioY = height / bounds.height;
+    const localBox = element => {
+      const r = element.getBoundingClientRect();
+      return {x:(r.left + r.width / 2 - bounds.left) * ratioX, y:(r.top + r.height / 2 - bounds.top) * ratioY, w:r.width * ratioX, h:r.height * ratioY};
+    };
+    const origin = localBox(scene.querySelector('.map-identity'));
+    scene.querySelectorAll('.destination').forEach(link => {
+      const target = localBox(link);
+      const dx = target.x - origin.x;
+      const dy = target.y - origin.y;
+      const startT = Math.min((origin.w / 2 + 16) / Math.max(Math.abs(dx),1),(origin.h / 2 + 16) / Math.max(Math.abs(dy),1));
+      const endT = Math.min((target.w / 2 + 12) / Math.max(Math.abs(dx),1),(target.h / 2 + 12) / Math.max(Math.abs(dy),1));
+      const start = {x:origin.x + dx * startT,y:origin.y + dy * startT};
+      const end = {x:target.x - dx * endT,y:target.y - dy * endT};
+      const path = svg.querySelector(`[data-path="${link.dataset.route}"]`);
+      path.setAttribute('d', `M${start.x} ${start.y} C${(start.x+end.x)/2} ${start.y},${(start.x+end.x)/2} ${end.y},${end.x} ${end.y}`);
+    });
+  }
+
+  function scheduleConnections() {
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(drawConnections);
+  }
+
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[data-route]');
+    if (!link || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    navigate(link.dataset.route, link);
+  });
+  document.querySelector('.skip-link').addEventListener('click', event => {event.preventDefault();openDirectory();});
+  window.addEventListener('popstate', () => renderRoute(routeFromHash()));
+  window.addEventListener('hashchange', () => renderRoute(routeFromHash()));
+  directoryToggle.addEventListener('click', openDirectory);
+  document.getElementById('directory-close').addEventListener('click', () => closeDirectory());
+  dialog.addEventListener('cancel', event => {event.preventDefault();closeDirectory();});
+  dialog.addEventListener('click', event => {
+    if (event.target !== dialog) return;
+    const r = dialog.getBoundingClientRect();
+    if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) closeDirectory();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      if (dialog.open) {event.preventDefault();closeDirectory();}
+      else if (currentRoute !== 'home') {event.preventDefault();navigate('home');}
+    }
+  });
+  // Native modal dialogs manage focus containment; this also keeps behavior deterministic.
+  dialog.addEventListener('keydown', event => {
+    if (event.key !== 'Tab') return;
+    const items = [...dialog.querySelectorAll('a,button')];
+    if (event.shiftKey && document.activeElement === items[0]) {event.preventDefault();items.at(-1).focus();}
+    else if (!event.shiftKey && document.activeElement === items.at(-1)) {event.preventDefault();items[0].focus();}
+  });
+  zoomIn.addEventListener('click', () => changeZoom(.1));
+  zoomOut.addEventListener('click', () => changeZoom(-.1));
+  document.getElementById('reset-view').addEventListener('click', resetCamera);
+  viewport.addEventListener('keydown', event => {
+    if (event.target !== viewport || event.ctrlKey || event.metaKey || event.altKey) return;
+    const moves = {ArrowLeft:[40,0],ArrowRight:[-40,0],ArrowUp:[0,40],ArrowDown:[0,-40]};
+    if (moves[event.key]) {event.preventDefault();panX += moves[event.key][0];panY += moves[event.key][1];updateCamera();}
+    else if (event.key === '+' || event.key === '=') {event.preventDefault();changeZoom(.1);}
+    else if (event.key === '-') {event.preventDefault();changeZoom(-.1);}
+    else if (event.key === '0') {event.preventDefault();resetCamera();}
+  });
+  viewport.addEventListener('pointerdown', event => {
+    if (event.button !== 0 || !event.isPrimary || event.target.closest('a,button')) return;
+    drag = {id:event.pointerId,x:event.clientX,y:event.clientY,panX,panY};
+    viewport.setPointerCapture(event.pointerId);
+    viewport.classList.add('is-dragging');
+  });
+  viewport.addEventListener('pointermove', event => {
+    if (!drag || drag.id !== event.pointerId) return;
+    panX = drag.panX + event.clientX - drag.x;
+    panY = drag.panY + event.clientY - drag.y;
+    updateCamera();
+  });
+  function endDrag(event) {
+    if (!drag || event.pointerId !== drag.id) return;
+    const id = drag.id; drag = null;
+    viewport.classList.remove('is-dragging');
+    if (viewport.hasPointerCapture(id)) viewport.releasePointerCapture(id);
+  }
+  viewport.addEventListener('pointerup',endDrag);
+  viewport.addEventListener('pointercancel',endDrag);
+  viewport.addEventListener('lostpointercapture',endDrag);
+  scene.querySelectorAll('.destination').forEach(link => {
+    const path = scene.querySelector(`[data-path="${link.dataset.route}"]`);
+    link.addEventListener('mouseenter', () => path.classList.add('is-highlighted'));
+    link.addEventListener('mouseleave', () => path.classList.remove('is-highlighted'));
+    link.addEventListener('focus', () => {
+      path.classList.add('is-highlighted');
+      const a = link.getBoundingClientRect(), b = viewport.getBoundingClientRect();
+      if (a.left < b.left || a.right > b.right || a.top < b.top || a.bottom > b.bottom) resetCamera();
+    });
+    link.addEventListener('blur', () => path.classList.remove('is-highlighted'));
+  });
+
+  function setTheme(value) {
+    root.dataset.theme = value;
+    themeToggle.textContent = value === 'dark' ? 'Light' : 'Dark';
+    themeToggle.setAttribute('aria-label',`Switch to ${value === 'dark' ? 'light' : 'dark'} theme`);
+    document.querySelector('meta[name="theme-color"]').content = value === 'dark' ? '#142b3c' : '#d7e7f0';
+  }
+  let savedTheme = null;
+  try { savedTheme = localStorage.getItem('ken-portfolio-theme'); } catch { /* Storage is optional. */ }
+  setTheme(savedTheme === 'dark' ? 'dark' : 'light');
+  themeToggle.addEventListener('click', () => {
+    const value = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    setTheme(value);
+    try {localStorage.setItem('ken-portfolio-theme',value);} catch { /* Still works this visit. */ }
+  });
+  window.addEventListener('resize', () => {resetCamera();scheduleConnections();});
+  scene.querySelectorAll('img').forEach(image => image.addEventListener('load',scheduleConnections));
+  document.fonts?.ready.then(scheduleConnections);
+  root.classList.add('js');
+  renderRoute(routeFromHash(),null,true);
+  updateCamera();
+})();

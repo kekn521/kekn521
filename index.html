@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#dcecf8">
+  <meta name="description" content="Ken (Kai-Yuan) Lin — an ISA master's student at National Tsing Hua University, exploring visual analytics, 3D reconstruction, and AI interpretability.">
+  <meta property="og:title" content="Ken Lin · A little map of my research">
+  <meta property="og:description" content="Visual analytics research, a few curiosities, and a good cup of coffee. Meet Ken Lin, a master's student at NTHU's VM Lab.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kekn521.github.io/kekn521/">
+  <title>Ken Lin | Research & a little curiosity</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="wordmark" href="#home" aria-label="Ken Lin, home"><span class="name-mark" aria-hidden="true">k<span>.</span></span><span>Ken Lin <span lang="zh-Hant">林楷源</span></span></a>
+    <nav aria-label="Main navigation"><a href="#research">Research</a><a href="#about">About</a><a href="#off-duty">Off duty</a><a class="nav-contact" href="#contact">Say hello <span aria-hidden="true">↗</span></a></nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap" id="home" aria-labelledby="intro-title">
+      <div class="hero-copy">
+        <p class="hello"><span class="small-sun" aria-hidden="true">✳</span> Hi, I’m Ken.</p>
+        <h1 id="intro-title">A curious mind.<br>A visual way<br>of thinking.</h1>
+        <p class="intro">I explore how visualization can help us understand complex systems, from 3D scenes to AI models.</p>
+        <p class="affiliation">First-year M.S. student in ISA<br><strong>National Tsing Hua University</strong><br>VM Lab · Advised by Dr. Shih-Hsuan Hung (Kevin)</p>
+        <div class="hero-actions"><a class="button primary" href="#research">Explore my research <span aria-hidden="true">↗</span></a><a class="text-link" href="#contact">Let’s connect</a></div>
+        <div class="hero-note"><svg viewBox="0 0 48 45" aria-hidden="true"><path d="M8 9h24l-5 17H13L8 9Zm8 2 3 13m7-13-4 13M13 30h16v7H13zM5 29h33M14 5c-4-5 5-3 2-7"/></svg><span>Research, curiosity & a cup of pour-over.</span></div>
+      </div>
+      <div class="atlas-shell">
+        <div class="atlas-heading"><span>My little research atlas</span><span class="live-dot" aria-hidden="true"></span></div>
+        <p class="atlas-instruction">Pick a point. Follow a curiosity.</p>
+        <div class="atlas" role="group" aria-label="Explore my research and interests">
+          <svg class="atlas-lines" viewBox="0 0 560 400" preserveAspectRatio="none" aria-hidden="true"><path d="M282 194 Q200 120 132 94M282 194 Q390 100 438 112M282 194 Q400 240 414 310M282 194 Q180 310 112 302"/><ellipse cx="281" cy="197" rx="169" ry="140"/></svg>
+          <div class="atlas-center" aria-hidden="true"><span class="center-symbol">k<span>.</span></span><span>Ken’s world</span><span class="center-sub">Always curious</span></div>
+          <button class="atlas-node node-research is-active" data-atlas="research" aria-pressed="true" aria-controls="atlas-detail"><span class="node-art splats" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><strong>Vis4GS</strong><span>Seeing beneath the surface</span></button>
+          <button class="atlas-node node-ai" data-atlas="questions" aria-pressed="false" aria-controls="atlas-detail"><span class="node-art network" aria-hidden="true"><svg viewBox="0 0 66 54"><path d="M12 13 34 8 55 27 33 45 12 13 55 27M12 13 33 45 34 8"/><circle cx="12" cy="13" r="5"/><circle cx="34" cy="8" r="5"/><circle cx="55" cy="27" r="5"/><circle cx="33" cy="45" r="5"/></svg></span><strong>Open questions</strong><span>Where curiosity leads next</span></button>
+          <button class="atlas-node node-life" data-atlas="life" aria-pressed="false" aria-controls="atlas-detail"><span class="node-art coffee" aria-hidden="true"><svg viewBox="0 0 66 54"><path d="M13 10h39L41 32H25L13 10Zm10 2 6 16m13-16-5 16M23 37h23v10H23zM10 36h45M28 4c-5-5 6-4 2-9"/></svg></span><strong>Life, off-screen</strong><span>A few things that recharge me</span></button>
+          <button class="atlas-node node-about" data-atlas="about" aria-pressed="false" aria-controls="atlas-detail"><span class="node-art campus" aria-hidden="true"><svg viewBox="0 0 66 54"><path d="m10 18 23-12 23 12H10Zm5 5v22m12-22v22m12-22v22m12-22v22M10 47h46M7 51h52"/></svg></span><strong>My chapter at NTHU</strong><span>People, place & learning</span></button>
+          <span class="atlas-spark spark-one" aria-hidden="true">+</span><span class="atlas-spark spark-two" aria-hidden="true">✧</span>
+        </div>
+        <div class="atlas-detail" id="atlas-detail" aria-live="polite" aria-atomic="true"><span class="detail-marker" aria-hidden="true"></span><div><strong id="atlas-title">A closer look at 3D reconstruction</strong><p id="atlas-description">Vis4GS connects visible artifacts with the Gaussian primitives and training history behind them.</p><a id="atlas-link" href="#research">Visit the project <span aria-hidden="true">↗</span></a></div></div>
+      </div>
+    </section>
+    <div class="news-strip wrap"><span class="news-label">A recent milestone</span><p><strong>Vis4GS</strong> accepted as a short paper at <strong>IEEE VIS 2026</strong>.</p><a href="https://arxiv.org/abs/2606.26985">Read the paper <span aria-hidden="true">↗</span></a></div>
+    <section class="research-section wrap" id="research" aria-labelledby="research-title">
+      <div class="section-heading"><div><p class="section-kicker">Things I’m working on</p><h2 id="research-title">Research, up close.</h2></div><p>Making complex processes<br>a little easier to understand.</p></div>
+      <article class="research-feature">
+        <a class="project-visual" href="https://arxiv.org/html/2606.26985v2" aria-label="Explore the Vis4GS paper and system overview"><div class="figure-caption-top"><span>Inside Vis4GS</span><span>System overview <span aria-hidden="true">↗</span></span></div><img src="assets/vis4gs-overview.png" width="2109" height="870" alt="Vis4GS interface linking a reconstructed 3D scene with Gaussian analysis, a densification tree, and property timelines." loading="lazy"><div class="figure-caption-bottom"><span class="figure-dot"></span>From the rendered scene to the story behind it.</div></a>
+        <div class="project-copy"><div class="publication-badge">IEEE VIS 2026 · Short paper</div><h3>Vis4GS</h3><p class="project-subtitle">A Visual Analytic Tool for 3D Gaussian Splatting Reconstruction</p><p>A reconstruction can look almost right, yet still contain puzzling artifacts. Vis4GS helps researchers inspect the underlying Gaussians and trace how they evolved during training.</p><div class="topic-list" aria-label="Research topics"><span>Visual analytics</span><span>3D Gaussian Splatting</span><span>Artifact diagnosis</span></div><p class="authors"><strong>Kai-Yuan Lin</strong>, Aryabima Mandala Putra,<br>Jui-Chi Lee, Shih-Hsuan Hung</p><div class="project-links"><a class="button primary" href="https://arxiv.org/abs/2606.26985">Read paper <span aria-hidden="true">↗</span></a><a class="text-link" href="https://arxiv.org/pdf/2606.26985">PDF <span aria-hidden="true">↗</span></a></div></div>
+        <details class="research-details"><summary><span>A little more about the research</span><span class="expand-icon" aria-hidden="true">+</span></summary><div class="research-detail-grid"><div><h4>The question</h4><p>How can we connect an artifact in a rendered scene to the primitives and optimization history that help explain it?</p></div><div><h4>The approach</h4><p>Linked views bring scene inspection, Gaussian properties, training timelines, and densification genealogy into one investigation.</p></div><div><h4>My research experience</h4><p>First author of Vis4GS, accepted as a short paper at IEEE VIS 2026. The paper presents the system and its evaluation.</p></div></div></details>
+      </article>
+      <div class="current-direction" id="questions"><span class="direction-icon" aria-hidden="true">✳</span><div><h3>What I’m curious about next</h3><p>Visual analytics for understanding AI models, including how internal representations relate to behavior in vision-language-action systems.</p></div><a href="#contact">Have a related question?<br><strong>Let’s talk <span aria-hidden="true">↗</span></strong></a></div>
+    </section>
+    <section class="about-section wrap" id="about" aria-labelledby="about-title">
+      <div class="about-intro"><p class="section-kicker">The person behind the projects</p><h2 id="about-title">Ken, also<br><span lang="zh-Hant">林楷源.</span></h2><p class="name-note">Kai-Yuan Lin on papers.<br>Ken when we meet.</p></div>
+      <div class="about-body"><p class="about-lead">I’m a first-year master’s student in ISA at National Tsing Hua University.</p><p>At <strong>VM Lab</strong>, I’m advised by <strong>Dr. Shih-Hsuan Hung (Kevin)</strong>. My research interests center on visual analytics: building ways to inspect, explore, and better understand complex computational processes.</p><div class="experience-line"><span class="timeline-point" aria-hidden="true"></span><div><span class="experience-date">Current chapter</span><h3>M.S. studies · ISA</h3><p>National Tsing Hua University · VM Lab</p></div></div><div class="experience-line"><span class="timeline-point filled" aria-hidden="true"></span><div><span class="experience-date">2026</span><h3>Vis4GS · IEEE VIS short paper</h3><p>First-authored research on visual analytics for 3D reconstruction.</p></div></div></div>
+    </section>
+    <section class="personal-section wrap" id="off-duty" aria-labelledby="personal-title">
+      <div class="personal-copy"><p class="section-kicker">There’s a person here, too</p><h2 id="personal-title">A little life<br>between the tabs.</h2><p>Outside research, I enjoy making pour-over coffee, playing games, and working out.</p><div class="personal-tabs" role="group" aria-label="Explore my interests"><button data-interest="coffee" class="is-active" aria-pressed="true" aria-controls="interest-panel">Pour-over</button><button data-interest="games" aria-pressed="false" aria-controls="interest-panel">Games</button><button data-interest="workout" aria-pressed="false" aria-controls="interest-panel">Workouts</button></div></div>
+      <div class="personal-scene" id="interest-panel" aria-live="polite" aria-atomic="true"><div class="scene-art" id="scene-art" aria-hidden="true"><svg viewBox="0 0 360 250"><ellipse class="scene-shadow" cx="185" cy="220" rx="115" ry="14"/><path class="glass" d="M128 136h87l21 66q0 21-62 21t-62-21l16-66Z"/><path class="brew" d="m123 176-10 28q5 15 61 15t60-15l-10-28q-51 9-101 0Z"/><path class="handle" d="M224 157q53-5 32 40l-22 8"/><path class="dripper" d="M106 63h139l-44 74h-54L106 63Z"/><ellipse class="rim" cx="175" cy="63" rx="69" ry="15"/><ellipse class="grounds" cx="175" cy="65" rx="47" ry="7"/><path class="rib" d="m126 76 28 51m-5-45 15 45m38-45-17 45m38-51-29 51"/><path class="steam" d="M162 36c-18-18 16-20 0-35m29 38c-16-15 15-17 2-29"/><path class="base" d="M137 137h75"/></svg></div><div class="personal-caption"><h3 id="interest-title">One cup, a slower moment.</h3><p id="interest-description">A little time away from the screen, making a pour-over.</p></div><span class="handwritten" id="interest-note">a small daily pleasure</span></div>
+    </section>
+    <section class="contact-section wrap" id="contact" aria-labelledby="contact-title"><div><p class="section-kicker">Good work starts with a conversation</p><h2 id="contact-title">Let’s compare notes.</h2><p>I’d love to connect with researchers working on visual analytics,<br class="desktop-break"> 3D reconstruction, or understanding AI systems.</p></div><div class="contact-actions"><a class="button primary" href="mailto:kenlin09250521@gapp.nthu.edu.tw">Send me an email <span aria-hidden="true">↗</span></a><a class="email-address" href="mailto:kenlin09250521@gapp.nthu.edu.tw">kenlin09250521@gapp.nthu.edu.tw</a><a class="text-link" href="https://github.com/kekn521">Find me on GitHub <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+  <footer class="site-footer wrap"><span>© <span id="year">2026</span> Ken Lin <span lang="zh-Hant">林楷源</span></span><span>A work in progress, just like research.</span><a href="#home">Back to the top ↑</a></footer>
+</body>
+</html>
